@@ -1,9 +1,5 @@
 // New file.
 
-// set up canvas
-const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
-
 // other global variables
 let gameAnimFrameId = null; // track requestAnimationFrame's id, in case we need to cancel the callback
 let restoreJoinButtonTimeout = null;
