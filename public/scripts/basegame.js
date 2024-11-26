@@ -214,7 +214,7 @@ const initialiseGame = function(side) {
 
 		// collision detection, but only for one player
 		if (rectangularCollision({ rectangle1: players[side], rectangle2: players[otherside] })
-			&& players[side].isAttacking && players[side].framesCurrent === attackFrame[side] {
+			&& players[side].isAttacking && players[side].framesCurrent === attackFrame[side]) {
 			players[otherside].takeHit();
 			data.otherPlayerHit = true;
 			players[side].isAttacking = false;
@@ -225,7 +225,7 @@ const initialiseGame = function(side) {
 				gsap.to("#player1Health", { width: players.left.health + "%" });
 			}
 		}
-		if (players[side].isAttacking && players[side].framesCurrent === attackFrame[side] {
+		if (players[side].isAttacking && players[side].framesCurrent === attackFrame[side]) {
 			players[side].isAttacking = false;
 		}
 
