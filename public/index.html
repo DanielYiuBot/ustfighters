@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+	<title>UST Fighter</title>
+	<link href="style.css" rel="stylesheet">
+	<!-- add scripts -->
+	<script src="/socket.io/socket.io.min.js"></script>
+	<script src="scripts/registration.js"></script>
+	<script src="scripts/authentication.js"></script>
+	<script src="scripts/main_functions.js"></script>
+	<script src="scripts/basegame.js"></script>
+	<script src="scripts/bounding_box.js"></script>
+	<script src="scripts/sprite.js"></script>
+	<script src="scripts/player.js"></script>
+	<script src="scripts/socket.js"></script>
+</head>
+
+<body onload="initialise()">
+	<div id="main_page">
+		<div class="main_col">
+			<form class="signin_elt" id="register">
+				<!-- registration form -->
+				<div>REGISTER HERE:</div>
+				<input id="username_reg" maxlength="12" placeholder="Enter your username:"></input>
+				<input id="name_reg" maxlength="20" placeholder="Enter your name:"></input>
+				<input id="pwd_reg" type="password" placeholder="Enter your password:"></input>
+				<input id="pwd_cfm" type="password" placeholder="Enter your password again:"></input>
+				<div class="spacer"></div>
+				<button type="submit">Register!</button>
+				<div class="spacer"></div>
+				<div id="resp_reg"></div>
+				<div class="spacer_grow"></div>
+			</form>
+			<form class="signin_elt" id="signin">
+				<!-- signin form -->
+				<div>ALREADY HAVE AN ACCOUNT?</div>
+				<div>SIGN-IN HERE:</div>
+				<input id="username_signin" placeholder="Enter your username:"></input>
+				<input id="pwd_signin" type="password" placeholder="Enter your password:"></input>
+				<div class="spacer"></div>
+				<button type="submit">Sign In!</button>
+				<div class="spacer"></div>
+				<div id="resp_signin"></div>
+				<div class="spacer_grow"></div>
+			</form>
+			<div class="main_bigelt" id="userinfo">
+				<!-- user information -->
+				<p id="userinfotext"></p>
+				<div class="spacer_grow"></div>
+			</div>
+			<div class="main_smallelt" id="joingame">
+				<!-- pairup button -->
+				<button id="pairup">Join A Game!</button>
+				<p id="waitingtext"></p>
+				<div class="spacer_grow"></div>
+			</div>
+			<div class="main_smallelt" id="signout">
+				<!-- signout button - as with other elements, it can be moved elsewhere -->
+				<button id="signoutbutton">Sign Out</button>
+				<div class="spacer_grow"></div>
+			</div>
+		</div>
+		<div class="main_col" id="instruction">
+			<!-- game instruction area -->
+			<p style="font-size:150%">Welcome to <span style="font-size:100%;font-weight:bold">UST Fighter!</span></p>
+			<p></p>
+			<p></p>
+		</div>
+	</div>
+	<canvas width="1280" height="720" style="display:none"></canvas>
+</body>
+</html>
