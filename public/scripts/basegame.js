@@ -89,7 +89,7 @@ const initialiseGame = function(side) {
 	const gravity = 0.7;
 	timer = 90; // time remaining, in seconds
 	const otherside = side == "left" ? "right" : "left";
-	let lastkey; // there's only one player, and it might be either, so I'm using a variable outside the sprite
+	let lastkey; // there's only one player, and it could be either, so I'm using a variable outside the sprite
 	const attackFrame = { left: 4, right: 2 } // the frame the fighters register their attack at are different
 	const keys = {
 		ArrowRight: { pressed: false },
@@ -156,8 +156,9 @@ const initialiseGame = function(side) {
 			case "ArrowLeft": keys.ArrowLeft.pressed = true; lastkey = "ArrowLeft"; break;
 			case "ArrowRight": keys.ArrowRight.pressed = true; lastkey = "ArrowRight"; break;
 			case " ": players[side].attack(); break;
-			// cheat key is toggleable (if cheat key is to be pressed continuously, then replace the if-condition + statement in the next line with "players[side].cheat = true" and add "players[side].cheat = false; break;" to case (cheatkey) of handleKeyup)
-			case "t": if (!e.repeat) players[side].cheat = !players[side].cheat; break; // only trigger once! (e.repeat is true if the key is continuously pressed)
+			case "t": if (!e.repeat) {
+				players[side].cheat = !players[side].cheat;
+			}; break; // only trigger once! (e.repeat is true if the key is continuously pressed)
 			default: break;
 		};
 	};
@@ -185,27 +186,37 @@ const initialiseGame = function(side) {
 		players[side].update();
 		players[otherside].update();
 
+		// prepare data to send to server
+		let data = {};
+		data.otherPlayerHit = false;
+		
 		// movement, but only for one player
 		players[side].velocity.x = 0;
 		if (keys.ArrowRight.pressed && lastkey === "ArrowRight") {
 			players[side].velocity.x = 5;
 			players[side].switchSprite("run");
+			data.newSprite = "run";
 		} else if (keys.ArrowLeft.pressed && lastkey === "ArrowLeft") {
 			players[side].velocity.x = -5;
 			players[side].switchSprite("run");
+			data.newSprite = "run";
 		} else {
 			players[side].switchSprite("idle");
+			data.newSprite = "idle";
 		}
 		if (players[side].velocity.y < 0) {
 			players[side].switchSprite("jump");
+			data.newSprite = "jump";
 		} else if (players[side].velocity.y > 0) {
 			players[side].switchSprite("fall");
+			data.newSprite = "fall";
 		}
 
 		// collision detection, but only for one player
 		if (rectangularCollision({ rectangle1: players[side], rectangle2: players[otherside] })
 			&& players[side].isAttacking && players[side].framesCurrent === attackFrame[side] {
 			players[otherside].takeHit();
+			data.otherPlayerHit = true;
 			players[side].isAttacking = false;
 			// this is (almost) the only part where the two player scripts have to be separated
 			if (side == "left") {
@@ -217,16 +228,28 @@ const initialiseGame = function(side) {
 		if (players[side].isAttacking && players[side].framesCurrent === attackFrame[side] {
 			players[side].isAttacking = false;
 		}
+
+		// fill in other data
+		data.velocity = players[side].velocity;
+		data.attacking = players[side].isAttacking;
 		
-		// prepare data to send to server
-		let data = {};
-		
-		// send to server
+		// send data to server
 		Socket.updateOtherPlayer(JSON.stringify(data));
 		
 		// update other player using data from server (and some attributes of this player too)
 		if (returnData) {
-			players[otherside].
+			players[otherside].velocity.x = data.velocity.x;
+			players[otherside].velocity.y = data.velocity.y;
+			players[otherside].switchSprite(data.newSprite);
+			players[otherside].isAttacking = data.attacking;
+			if (data.otherPlayerHit) {
+				players[side].takeHit();
+				if (side == "left") {
+					gsap.to("#player1Health", { width: players.left.health + "%" });
+				} else {
+					gsap.to("#player2Health", { width: players.right.health + "%" });
+				}
+			}
 		}
 		
 		// end game detection
@@ -234,7 +257,7 @@ const initialiseGame = function(side) {
 			gameAnimFrameId = null;
 			removeEventListener("keydown", handleKeydown);
 			removeEventListener("keyup", handleKeyup);
-			returnData = {};
+			returnData = null;
 			determineWinner({ players[left], players[right], timerId });
 			endGame();
 		} else {
