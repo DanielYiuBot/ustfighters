@@ -258,7 +258,7 @@ const initialiseGame = function(side) {
 			removeEventListener("keydown", handleKeydown);
 			removeEventListener("keyup", handleKeyup);
 			returnData = null;
-			determineWinner({ players[left], players[right], timerId });
+			determineWinner({ players.left, players.right, timerId });
 			endGame();
 		} else {
 			gameAnimFrameId = requestAnimationFrame(gameFrame);
