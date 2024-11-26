@@ -1,3 +1,7 @@
+// set up canvas (this file loads after the body is loaded)
+const canvas = document.querySelector('canvas');
+const c = canvas.getContext('2d');
+
 function rectangularCollision({ rectangle1, rectangle2 }) {
     return (
       rectangle1.attackBox.position.x + rectangle1.attackBox.width >=
