@@ -1,6 +1,7 @@
 // New file.
 
-// other global variables
+// global variables
+const gravity = 0.7;
 let gameAnimFrameId = null; // track requestAnimationFrame's id, in case we need to cancel the callback
 let restoreJoinButtonTimeout = null;
 let returnData = null; // this is global too, in case console throws error accessing this variable from socket
@@ -82,7 +83,6 @@ const initialiseGame = function(side) {
 	document.getElementById("game_area").style.display = "inline-block";
 	
 	// variables
-	const gravity = 0.7;
 	timer = 90; // time remaining, in seconds
 	const otherside = side == "left" ? "right" : "left";
 	let lastkey; // there's only one player, and it could be either, so I'm using a variable outside the sprite
@@ -160,7 +160,7 @@ const initialiseGame = function(side) {
 	};
 	const handleKeyup = function(e) {
 		switch(e.key) {
-			case "ArrowLeft": keys.ArrowLeft.pressed = true; break;
+			case "ArrowLeft": keys.ArrowLeft.pressed = false; break;
 			case "ArrowRight": keys.ArrowRight.pressed = false; break;
 			default: break;
 		}
@@ -234,11 +234,11 @@ const initialiseGame = function(side) {
 		
 		// update other player using data from server (and some attributes of this player too)
 		if (returnData) {
-			players[otherside].velocity.x = data.velocity.x;
-			players[otherside].velocity.y = data.velocity.y;
-			players[otherside].switchSprite(data.newSprite);
-			players[otherside].isAttacking = data.attacking;
-			if (data.otherPlayerHit) {
+			players[otherside].velocity.x = returnData.velocity.x;
+			players[otherside].velocity.y = returnData.velocity.y;
+			players[otherside].switchSprite(returnData.newSprite);
+			players[otherside].isAttacking = returnData.attacking;
+			if (returnData.otherPlayerHit) {
 				players[side].takeHit();
 				if (side == "left") {
 					gsap.to("#player1Health", { width: players.left.health + "%" });
