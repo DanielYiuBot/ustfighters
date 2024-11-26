@@ -1,5 +1,9 @@
 // New file.
 
+// set up canvas
+const canvas = document.querySelector('canvas');
+const c = canvas.getContext('2d');
+
 // other global variables
 let gameAnimFrameId = null; // track requestAnimationFrame's id, in case we need to cancel the callback
 let restoreJoinButtonTimeout = null;
@@ -80,10 +84,6 @@ const initialiseGame = function(side) {
 	document.getElementById("main_page").style.display = "none";
 	// show the game area
 	document.getElementById("game_area").style.display = "inline-block";
-
-	// set up canvas
-	const canvas = document.querySelector('canvas');
-	const c = canvas.getContext('2d');
 	
 	// variables
 	const gravity = 0.7;
