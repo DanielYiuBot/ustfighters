@@ -1,0 +1,56 @@
+{
+  "acc_1": {
+    "name": "Account 1",
+    "password": "$2b$10$yqgYZlWdtiPuiEbEqDtKEOS/JEbTCK.qfCubAAjvRMV81AJ3lYNya",
+    "gameStats": {
+      "pld": 0,
+      "w": 0,
+      "l": 0
+    }
+  },
+  "acc_2": {
+    "name": "Account 2",
+    "password": "$2b$10$ZCAxYtjhQLmesAG8AII52.x3uNpBFieQKCqRHA9.QItVEaeFP7Gxi",
+    "gameStats": {
+      "pld": 0,
+      "w": 0,
+      "l": 0
+    }
+  },
+  "acc_3": {
+    "name": "Account 3",
+    "password": "$2b$10$eo2YRldaN8qyKePZjicjseKzku4.42nBCLeXM6CB4syvxB2YTt22i",
+    "gameStats": {
+      "pld": 0,
+      "w": 0,
+      "l": 0
+    }
+  },
+  "acc_4": {
+    "name": "Account 4",
+    "password": "$2b$10$uPRzbihjBiiQlubB6IkczOgLUBVuuCp/2tHKhuAo8W2hUJtgsQgmy",
+    "gameStats": {
+      "pld": 0,
+      "w": 0,
+      "l": 0
+    }
+  },
+  "acc_5": {
+    "name": "Account 5",
+    "password": "$2b$10$mD0jj7iyPvNMdjAIKlGCuu7jDQjgtCkke.srndVSweNp1fHDvBj6i",
+    "gameStats": {
+      "pld": 0,
+      "w": 0,
+      "l": 0
+    }
+  },
+  "acc_6": {
+    "name": "Account 6",
+    "password": "$2b$10$QlnBQoTrT4gMEZqtlRqhdeq1xNBnLjlC2o3AfrVYMsm6Cwc1vHn32",
+    "gameStats": {
+      "pld": 0,
+      "w": 0,
+      "l": 0
+    }
+  }
+}
