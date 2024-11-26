@@ -1,5 +1,6 @@
 // Modified from sprite.js in Lab 4. Everything related to shadows removed. All comments removed.
-
+// Now replaced by the Sprite class in classes.js.
+/*
 const Sprite = function(ctx, x, y) {
 	const sheet = new Image();
     let sequence = { x: 0, y: 0, width: 20, height: 20, count: 1, timing: 0, loop: false };
@@ -76,3 +77,4 @@ const Sprite = function(ctx, x, y) {
         update: update
     };
 };
+*/
