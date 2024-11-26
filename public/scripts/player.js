@@ -1,5 +1,6 @@
 // Structure referenced from player.js in Lab 4.
-
+// Mostly replaced by the fighter class in classes.js.
+/*
 const Player = function(ctx, x, y, gameArea, side, initialHP) {
 	// new variables / functions!
 	
@@ -171,3 +172,4 @@ const Player = function(ctx, x, y, gameArea, side, initialHP) {
 		updateFromServer: updateFromServer,
     };
 };
+*/
