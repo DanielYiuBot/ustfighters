@@ -21,6 +21,11 @@ svg {
 	height: 80%;
 }
 
+#main_page * {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+}
+
 .main_col {
 	width: 50%;
 	float: left;
