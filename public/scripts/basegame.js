@@ -65,6 +65,10 @@ function stopGame() {
 		cancelAnimationFrame(gameAnimFrameId);
 		gameAnimFrameId = null;
 	};
+	// stop timer (if game already started)
+	if (timerId) {
+		clearTimeout(timerId);
+	}
 	// hide the game area
 	document.getElementById("game_area").style.display = "none";
 	// prepare the message on the main page
