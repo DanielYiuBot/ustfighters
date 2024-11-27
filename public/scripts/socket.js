@@ -46,14 +46,20 @@ const Socket = (function() {
 			// forced disconnection from server
 			Authentication.signout(()=>{
 				disconnect();
-				// tell the client they've been disconnected because of a server restart
-				alert("Sorry, you have been signed out because the server restarted.");
+				// clear all the timeouts
+				cancelAnimationFrame(gameAnimFrameId);
+				clearTimeout(timerId);
+				// just in case, show the main page and hide everything else
+				document.getElementById("game_area").style.display = "none";
+				document.getElementById("main_page").style.display = "block";
 				// undo the changes in signin
 				document.getElementById("register").style.display = "flex";
 				document.getElementById("signin").style.display = "flex";
 				document.getElementById("userinfo").style.display = "none";
 				document.getElementById("joingame").style.display = "none";
 				document.getElementById("signout").style.display = "none";
+				// tell the client they've been disconnected because of a server restart
+				alert("Sorry, you have been signed out because the server restarted.");
 			});
 		});
 		socket.on("player update from server", (data)=>{
