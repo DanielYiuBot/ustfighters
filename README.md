@@ -43,6 +43,9 @@ Improvements/bugfixes:
 - Some minor bugfixes.
 
 ### Information for testing
+
+Current keys used in game (can be changed): arrow keys for movement (down key does nothing currently), spacebar for attack, t for toggle cheat mode
+
 Some player accounts are created for testing (currently there are no scripts updating the game stats):
 
 | Username|Password|Display name |
