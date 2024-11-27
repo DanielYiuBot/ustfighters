@@ -79,6 +79,8 @@ function stopGame() {
 const initialiseGame = function(side) {
 	// hide all things related to the main page
 	document.getElementById("main_page").style.display = "none";
+	// hide the display text
+	document.getElementById("displayText").style.display = "none";
 	// show the game area
 	document.getElementById("game_area").style.display = "inline-block";
 	
