@@ -83,8 +83,12 @@ function stopGame() {
 const initialiseGame = function(side) {
 	// hide all things related to the main page
 	document.getElementById("main_page").style.display = "none";
-	// hide the display text
+	// reset things in the game area
+	// display text
 	document.getElementById("displayText").style.display = "none";
+	// health bars
+	document.getElementById("player1Health").style.width = "100%";
+	document.getElementById("player2Health").style.width = "100%";
 	// show the game area
 	document.getElementById("game_area").style.display = "inline-block";
 	
