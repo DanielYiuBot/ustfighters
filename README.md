@@ -41,3 +41,17 @@ Improvements/bugfixes:
 2024-11-27 (PM):
 - Initialised this readme file.
 - Some minor bugfixes.
+
+### Information for testing
+Some player accounts are created for testing (currently there are no scripts updating the game stats):
+
+| Username|Password|Display name |
+|---------|--------|-------------|
+|  acc_1  |  acc1  |  Account 1  |
+|  acc_2  |  acc2  |  Account 2  |
+|  acc_3  |  acc3  |  Account 3  |
+|  acc_4  |  acc4  |  Account 4  |
+|  acc_5  |  acc5  |  Account 5  |
+|  acc_6  |  acc6  |  Account 6  |
+
+New accounts can also be created using the registration form (limit of 12/20 chars for username/displayname respectively).
