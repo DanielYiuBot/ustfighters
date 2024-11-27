@@ -238,6 +238,7 @@ const initialiseGame = function(side) {
 		// fill in other data
 		data.velocity = players[side].velocity;
 		data.attacking = players[side].isAttacking;
+		data.cheating = players[side].cheat;
 		
 		// send data to server
 		Socket.updateOtherPlayer(JSON.stringify(data));
@@ -247,7 +248,9 @@ const initialiseGame = function(side) {
 			players[otherside].velocity.x = returnData.velocity.x;
 			players[otherside].velocity.y = returnData.velocity.y;
 			players[otherside].switchSprite(returnData.newSprite);
+			if (!players[otherside].isAttacking && returnData.attacking) players[otherside].attack();
 			players[otherside].isAttacking = returnData.attacking;
+			players[otherside].cheat = returnData.cheating;
 			if (returnData.otherPlayerHit) {
 				players[side].takeHit();
 				if (side == "left") {
