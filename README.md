@@ -41,10 +41,13 @@ Improvements/bugfixes:
 2024-11-27 (PM):
 - Initialised this readme file.
 - Some minor bugfixes.
+- Added information for testing.
 
 ### Information for testing
 
-Current keys used in game (can be changed): arrow keys for movement (down key does nothing currently), spacebar for attack, t for toggle cheat mode
+Server setup: install these packages - `express`, `express-session`, `bcrypt`, `socket.io`; then run `node server.js`
+
+Keys used in game (can be changed): arrow keys for movement (down key does nothing currently), spacebar for attack, t for toggle cheat mode
 
 Some player accounts are created for testing (currently there are no scripts updating the game stats):
 
