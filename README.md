@@ -41,6 +41,7 @@ Improvements/bugfixes:
 2024-11-27 (PM):
 - Initialised this readme file.
 - Some minor bugfixes.
+- Added scripts for dealing with the edge case of server restarts (/ closing then reopening with clients still connected). Now they are all force-disconnected if server restarts.
 - Added information for testing.
 
 ### Information for testing
