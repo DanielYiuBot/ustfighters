@@ -14,6 +14,7 @@ Improvements/bugfixes:
 - Can make cheat mode more powerful? (currently it seems to only negate all incoming damage)
 - Can detect gameover from the timer running out (currently, timer running out only calls the determineWinner function and has no effect on running the game (which is in the gameFrame function))
 - Can allow game animation to run a bit longer after one player is defeated, to show the "death" animation (this feature was present in the original but no longer works because the current end game detection scripts also stop all game animations)
+- Add (invisible) boundary to the game area? (currently it seems players can run out of bounds)
 
 ## Potential other ideas (only if time allows)
 - Damage splash text?
@@ -39,3 +40,4 @@ Improvements/bugfixes:
 
 2024-11-27 (PM):
 - Initialised this readme file.
+- Some minor bugfixes.
