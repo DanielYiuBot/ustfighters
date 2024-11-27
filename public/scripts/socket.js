@@ -42,6 +42,20 @@ const Socket = (function() {
 			// put user back in the main room
 			socket.emit("send me to", "main");
 		});
+		socket.on("force disconnect", ()=>{
+			// forced disconnection from server
+			Authentication.signout(()=>{
+				disconnect();
+				// tell the client they've been disconnected because of a server restart
+				alert("Sorry, you have been signed out because the server restarted.");
+				// undo the changes in signin
+				document.getElementById("register").style.display = "flex";
+				document.getElementById("signin").style.display = "flex";
+				document.getElementById("userinfo").style.display = "none";
+				document.getElementById("joingame").style.display = "none";
+				document.getElementById("signout").style.display = "none";
+			});
+		});
 		socket.on("player update from server", (data)=>{
 			returnData = JSON.parse(data);
 		});
