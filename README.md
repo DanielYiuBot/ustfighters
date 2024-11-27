@@ -35,7 +35,7 @@ Improvements/bugfixes:
 - Updated `style.css` to use the new fonts (but also retained the font styles in the front page, for now, since the new font doesn't seem to render hyphens properly, and the given font size was too big).
 - Merged functions in `index.js` into `basegame.js` (mostly in the `initialiseGame` function).
 - Moved the canvas setup functions from `index.js` into `mechanism.js` (placed at the end of `body` and should load after it, unlike most other scripts that are placed in `head` which would then load before the canvas is loaded, causing an error).
-- Moved `timer` declaration from `mechanism.js` to `initialiseGame` so it can be reset every time a game loads.
+- Moved `timer` initialisation from `mechanism.js` to `initialiseGame` so it can be reset every time a game loads.
 - Changed cheat mode activation: previously was hold-down-button, changed to toggle (can revert if needed).
 
 2024-11-27 (PM):
