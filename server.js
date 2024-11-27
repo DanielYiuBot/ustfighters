@@ -125,7 +125,6 @@ io.on("connection", (socket) => {
 			gameStats: sessionUser.gameStats,
 		};
 	};
-	if (sessionUser == null) return;
 	// user signout / disconnection (similar to lab 6)
 	socket.on("disconnect", ()=>{
 		if (!(sessionUser.username in onlinePlayers)) return; // double disconnections?? must be at least two tabs of the same browser... OR: the force disconnect "username" given (which is longer than the allowed username length so should never be an actual username)
