@@ -26,7 +26,7 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     }
   }
   
-  // let timer = 90 (this should be set every time a game starts, instead of once on load)
+  let timer // don't set time yet
   let timerId
   function decreaseTimer() {
     if (timer > 0) {
@@ -36,6 +36,6 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     }
   
     if (timer === 0) {
-      determineWinner({ player1, player2, timerId })
+      determineWinner({ players.left, players.right, timerId })
     }
   }
