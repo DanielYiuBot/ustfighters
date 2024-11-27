@@ -36,6 +36,6 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
     }
   
     if (timer === 0) {
-      determineWinner({ players.left, players.right, timerId })
+        determineWinner({ player1: players.left, player2: players.right, timerId })
     }
   }
