@@ -38,4 +38,4 @@ Improvements/bugfixes:
 - Changed cheat mode activation: previously was hold-down-button, changed to toggle (can revert if needed).
 
 2024-11-27 (PM):
-- Changed this readme file.
+- Initialised this readme file.
