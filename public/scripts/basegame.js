@@ -5,6 +5,7 @@ const gravity = 0.7;
 let gameAnimFrameId = null; // track requestAnimationFrame's id, in case we need to cancel the callback
 let restoreJoinButtonTimeout = null;
 let returnData = null; // this is global too, in case console throws error accessing this variable from socket
+const players = {left: null, right: null}; // so that stopGame can access this variable 
 
 // modules
 
@@ -64,6 +65,9 @@ function stopGame() {
 	if (gameAnimFrameId) {
 		cancelAnimationFrame(gameAnimFrameId);
 		gameAnimFrameId = null;
+		// delete the player objects
+		delete players.left;
+		delete players.right;
 	};
 	// stop timer (if game already started)
 	if (timerId) {
@@ -107,53 +111,51 @@ const initialiseGame = function(side) {
 		position: { x: 0, y: 0 },
 		imageSrc: "img/background.jpg"
 	});
-	const players = {
-		left: new Fighter({
-			position: { x: 0, y: 0 },
-			velocity: { x: 0, y: 0 },
-			imageSrc: "img/man/Idle.png",
-			framesMax: 10,
-			scale: 3,
-			offset: { x: 0, y: 125 },
-			sprites: {
-				idle: { imageSrc: "img/man/Idle.png", framesMax: 10 },
-				run: { imageSrc: "img/man/Run.png", framesMax: 8 },
-				jump: { imageSrc: "img/man/Jump.png", framesMax: 3 },
-				fall: { imageSrc: "img/man/Fall.png", framesMax: 3 },
-				attack1: { imageSrc: "img/man/Attack1.png", framesMax: 7 },
-				takeHit: { imageSrc: "img/man/TakeHit.png", framesMax: 3 },
-				death: { imageSrc: "img/man/Death.png", framesMax: 11 },
-			},
-			attackBox: {
-				offset: { x: 130, y: 50 },
-				width: 160,
-				height: 50
-			}
-		}),
-		right: new Fighter({
-			position: { x: 700, y: 0 },
-			velocity: { x: 0, y: 0 },
-			color: "blue",
-			imageSrc: "img/woman/Idle.png",
-			framesMax: 8,
-			scale: 3.2,
-			offset: { x: 120, y: 189 },
-			sprites: {
-				idle: { imageSrc: "img/woman/Idle.png", framesMax: 8 },
-				run: { imageSrc: "img/woman/Run.png", framesMax: 8 },
-				jump: { imageSrc: "img/woman/Jump.png", framesMax: 2 },
-				fall: { imageSrc: "img/woman/Fall.png", framesMax: 2 },
-				attack1: { imageSrc: "img/woman/Attack1.png", framesMax: 5 },
-				takeHit: { imageSrc: "img/woman/Take hit.png", framesMax: 3 },
-				death: { imageSrc: "img/woman/Death.png", framesMax: 8 },
-			},
-			attackBox: {
-				offset: { x: -220, y: 100 },
-				width: 170,
-				height: 50
-			}
-		})
-	};
+	players.left = new Fighter({
+		position: { x: 0, y: 0 },
+		velocity: { x: 0, y: 0 },
+		imageSrc: "img/man/Idle.png",
+		framesMax: 10,
+		scale: 3,
+		offset: { x: 0, y: 125 },
+		sprites: {
+			idle: { imageSrc: "img/man/Idle.png", framesMax: 10 },
+			run: { imageSrc: "img/man/Run.png", framesMax: 8 },
+			jump: { imageSrc: "img/man/Jump.png", framesMax: 3 },
+			fall: { imageSrc: "img/man/Fall.png", framesMax: 3 },
+			attack1: { imageSrc: "img/man/Attack1.png", framesMax: 7 },
+			takeHit: { imageSrc: "img/man/TakeHit.png", framesMax: 3 },
+			death: { imageSrc: "img/man/Death.png", framesMax: 11 },
+		},
+		attackBox: {
+			offset: { x: 130, y: 50 },
+			width: 160,
+			height: 50
+		}
+	});
+	players.right = new Fighter({
+		position: { x: 700, y: 0 },
+		velocity: { x: 0, y: 0 },
+		color: "blue",
+		imageSrc: "img/woman/Idle.png",
+		framesMax: 8,
+		scale: 3.2,
+		offset: { x: 120, y: 189 },
+		sprites: {
+			idle: { imageSrc: "img/woman/Idle.png", framesMax: 8 },
+			run: { imageSrc: "img/woman/Run.png", framesMax: 8 },
+			jump: { imageSrc: "img/woman/Jump.png", framesMax: 2 },
+			fall: { imageSrc: "img/woman/Fall.png", framesMax: 2 },
+			attack1: { imageSrc: "img/woman/Attack1.png", framesMax: 5 },
+			takeHit: { imageSrc: "img/woman/Take hit.png", framesMax: 3 },
+			death: { imageSrc: "img/woman/Death.png", framesMax: 8 },
+		},
+		attackBox: {
+			offset: { x: -220, y: 100 },
+			width: 170,
+			height: 50
+		}
+	});
 	
 	// handle key presses
 	const handleKeydown = function(e) {
