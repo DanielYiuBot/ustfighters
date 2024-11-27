@@ -2,7 +2,7 @@
 
 ## Instructions, Description
 
-## TODO
+## TODO (other ideas are welcome)
 
 From assessment guidelines:
 - Add game description and instructions (to front page, and maybe to this file)
@@ -35,7 +35,7 @@ Improvements/bugfixes:
 - Merged functions in `index.js` into `basegame.js` (mostly in the `initialiseGame` function).
 - Moved the canvas setup functions from `index.js` into `mechanism.js` (placed at the end of `body` and should load after it, unlike most other scripts that are placed in `head` which would then load before the canvas is loaded, causing an error).
 - Moved `timer` declaration from `mechanism.js` to `initialiseGame` so it can be reset every time a game loads.
-- Changed cheat mode activation: previously was hold-down-button, changed to toggle (can revert if needed)
+- Changed cheat mode activation: previously was hold-down-button, changed to toggle (can revert if needed).
 
 2024-11-27 (PM):
 - Changed this readme file.
