@@ -22,6 +22,7 @@ Improvements/bugfixes:
 - Ways to rank players? e.g. winning margin? time used? experience points system?
 - Can allow players to join a new game after finishing their current one?
 
+##
 ### Changelog
 
 2024-11-26: Original version.
