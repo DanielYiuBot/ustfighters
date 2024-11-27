@@ -115,7 +115,7 @@ app.get("/signout", (req, res) => {
 // for reference: https://socket.io/docs/v4/rooms/
 
 io.on("connection", (socket) => {
-	const sessionUser = socket.request.session.user;
+	let sessionUser = socket.request.session.user; // the only case where this is explicitly set is if the server reopens and clients need to be force-disconnected
 	// user signin (similar to lab 6)
 	if (sessionUser != null && !(sessionUser.username in onlinePlayers)) { // second condition catches double connections e.g. from two tabs of the same browser
 		onlinePlayers[sessionUser.username] = {
@@ -128,7 +128,7 @@ io.on("connection", (socket) => {
 	if (sessionUser == null) return;
 	// user signout / disconnection (similar to lab 6)
 	socket.on("disconnect", ()=>{
-		if (!(sessionUser.username in onlinePlayers)) return; // double disconnections?? must be at least two tabs of the same browser
+		if (!(sessionUser.username in onlinePlayers)) return; // double disconnections?? must be at least two tabs of the same browser... OR: the force disconnect "username" given (which is longer than the allowed username length so should never be an actual username)
 		const originalRoom = onlinePlayers[sessionUser.username].room;
 		if (typeof(originalRoom) == "number") {
 			// tell the client of the opponent that the player disconnected
@@ -140,6 +140,11 @@ io.on("connection", (socket) => {
 		};
 		delete onlinePlayers[sessionUser.username];
 	});
+	if (sessionUser == null) { // force disconnect if server restarts (after the disconnect function is defined but not the others)
+		sessionUser = {username: "abouttobedisconnected"};
+		socket.emit("force disconnect");
+		return;
+	};
 	// get user info
 	socket.on("get user info", ()=>{
 		socket.emit("return user info", JSON.stringify(onlinePlayers[sessionUser.username]), sessionUser.username);
