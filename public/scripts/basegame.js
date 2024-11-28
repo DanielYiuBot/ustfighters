@@ -3,6 +3,7 @@
 // global variables
 const gravity = 0.7;
 let gameAnimFrameId = null; // track requestAnimationFrame's id, in case we need to cancel the callback
+let endGameTimeout = null;
 let restoreJoinButtonTimeout = null;
 let returnData = null; // this is global too, in case console throws error accessing this variable from socket
 const players = {left: null, right: null}; // so that stopGame can access this variable 
@@ -59,8 +60,8 @@ const healthBar = function(ctx, x, y, w, h, side) {
 	return { draw };
 };
 
-// stopGame: called when opponent disconnects, this should stop the game preemptively and restore the main page
-function stopGame() {
+// stopGame: called when opponent disconnects / someone selects return to main page after ending a game - restore the main page
+function stopGame(gameEnded = false) {
 	// stop game animations (if game already started)
 	if (gameAnimFrameId) {
 		cancelAnimationFrame(gameAnimFrameId);
@@ -73,15 +74,29 @@ function stopGame() {
 	if (timerId) {
 		clearTimeout(timerId);
 	}
+	sounds.background.pause();
 	// hide the game area
 	document.getElementById("game_area").style.display = "none";
-	// prepare the message on the main page
-	document.getElementById("waitingtext").innerHTML = "Unfortunately, your opponent disconnected! This game will not count towards your records.";
+	// prepare the message on the main page (if game stopped preemptively), otherwise clear the text there
+	document.getElementById("waitingtext").innerHTML = gameEnded ? "" : "Unfortunately, your opponent disconnected! This game will not count towards your records.";
 	// show the main page
 	document.getElementById("main_page").style.display = "block";
-	// allow the player to join another game after a delay (2 seconds)
-	restoreJoinButtonTimeout = setTimeout(restoreJoinButton, 2000);
+	if (gameEnded) {
+		// let the player join another game immediately if they wanted to
+		restoreJoinButton();
+	} else {
+		// allow the player to join another game after a delay (2 seconds)
+		restoreJoinButtonTimeout = setTimeout(restoreJoinButton, 2000);
+	}
 };
+
+// returnToFrontpage: event listener for the button of (similar) name
+const returnToFrontpage = function(e) {
+	document.getElementById("return_to_frontpage").removeEventListener("click", returnToFrontpage); // get rid of the event listener before I destroy the button
+	document.getElementById("displayText").innerHTML = "";
+	Socket.backtoMain();
+	stopGame(true);
+}
 
 // initialiseGame: runs once, when the game starts
 const initialiseGame = function(side) {
@@ -101,6 +116,7 @@ const initialiseGame = function(side) {
 	
 	// variables
 	timer = 90; // time remaining, in seconds
+	const maxTime = timer;
 	const otherside = side == "left" ? "right" : "left";
 	let lastkey; // there's only one player, and it could be either, so I'm using a variable outside the sprite
 	const attackFrame = { left: 4, right: 2 } // the frame the fighters register their attack at are different
@@ -200,12 +216,68 @@ const initialiseGame = function(side) {
 		c.fill();
 		c.restore();
 	};
-
+	
 	// endGame: called when some player's HP reaches 0, or if time is up
-	const endGame = function() {
-		// not yet implemented
+	const endGame = function(side) {
+		// stop the timer
+		clearTimeout(timerId);
+		// temporarily hide displayText
+		document.getElementById("displayText").style.display = "none";
+		
+		// play gameover sounds
 		sounds.background.pause();
 		sounds.gameover.play();
+		
+		// frequently-referenced variable
+		let finalHP = { me: players[side].health, other: players[otherside].health };
+		
+		// prepare update package (send to server later)
+		let stats = {};
+		stats.pld = 1;
+		stats.w = finalHP.me > finalHP.other ? 1 : 0;
+		stats.l = finalHP.me < finalHP.other ? 1 : 0;
+		
+		// we need some stats from the server here... (not yet done)
+		
+		// prepare gameover text
+		let gameoverText = "<p>Game Over! You";
+		gameoverText += stats.w > 0 ? " WON!" : (stats.l > 0 ? " lost..." : "... tied?");
+		gameoverText += "</p><p>==== GAME STATS ====<br>Time taken: <span id=\"time_text\">";
+		gameoverText += (maxTime - timer);
+		gameoverText += "</span><br>Your health: <span id=\"my_HP_text\">";
+		gameoverText += finalHP.me;
+		gameoverText += "</span><sub>/100</sub><br>Opponent's health: <span id=\"other_HP_text\">";
+		gameoverText += finalHP.other;
+		gameoverText += "</span><sub>/100</sub></p>";
+		
+		gameoverText += "<p></p><button id=\"return_to_frontpage\">Return to frontpage</button>";
+		// wrap everything inside a div
+		gameoverDiv = "<div>" + gameoverText + "</div>";
+		
+		document.getElementById("displayText").innerHTML = gameoverDiv;
+		
+		// set styles
+		document.getElementById("displayText").style.backgroundColor = "rgba(0, 0, 0, 0.2)";
+		const allDisplayTexts = document.querySelectorAll("#displayText *");
+		for (item of allDisplayTexts) {
+			item.style.fontFamily = "Bahnschrift, 'Tw Cen MT', 'Comic Sans MS', sans-serif"; // testing new fonts, can change
+			item.style.fontSize = "100%";
+		}
+		const allDisplaySubscripts = document.querySelectorAll("#displayText sub");
+		for (item of allDisplaySubscripts) {
+			item.style.fontSize = "60%";
+		}
+		document.getElementById("time_text").style.fontWeight = "bold";
+		document.getElementById("time_text").style.color = "orange";
+		document.getElementById("my_HP_text").style.color = finalHP.me > 20 ? (finalHP.me > 50 ? "green" : "yellow") : (finalHP.me > 0 ? "orange" : "red");
+		document.getElementById("other_HP_text").style.color = finalHP.other > 20 ? (finalHP.other > 50 ? "green" : "yellow") : (finalHP.other > 0 ? "orange" : "red");
+		
+		// tell the server to update game stats now
+		Socket.updateGameStats(JSON.stringify(stats));
+		
+		// show the text
+		document.getElementById("displayText").style.display = "flex";
+		document.getElementById("return_to_frontpage").addEventListener("click", returnToFrontpage);
 	};
 	
 	// gameFrame: called every frame
@@ -297,15 +369,17 @@ const initialiseGame = function(side) {
 		
 		// end game detection
 		if (players.left.health <= 0 || players.right.health <= 0 || timer == 0) {
-			gameAnimFrameId = null;
+			// no more user inputs!
 			removeEventListener("keydown", handleKeydown);
 			removeEventListener("keyup", handleKeyup);
-			returnData = null;
-			determineWinner({ player1: players.left, player2: players.right, timerId });
-			endGame();
-		} else {
-			gameAnimFrameId = requestAnimationFrame(gameFrame);
-		};
+			// determineWinner({ player1: players.left, player2: players.right, timerId }); (this unfortunately messes with endGame)
+			if (!endGameTimeout) endGame(side);
+			// let any death animation play out
+			endGameTimeout = setTimeout(()=>{ endGameTimeout = null; returnData = null; cancelAnimationFrame(gameAnimFrameId); }, 2000);
+		}
+		
+		// update: animations only stop a while (2s?) after gameover
+		gameAnimFrameId = requestAnimationFrame(gameFrame);
 	};
 	
 	// event listener for keys
