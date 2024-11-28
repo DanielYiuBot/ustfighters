@@ -180,6 +180,26 @@ const initialiseGame = function(side) {
 			default: break;
 		}
 	};
+	
+	// draw non-opaque bluish circle around a cheating player
+	const drawCheatingCircle = function(side) {
+		c.save();
+		const x = players[side].position.x - players[side].offset.x;
+		const y = players[side].position.y - players[side].offset.y;
+		const w = players[side].image.width * players[side].scale / 2 / players[side].framesMax;
+		const h = players[side].image.height * players[side].scale / 2;
+		const r = Math.max(w, h);
+		const rG = c.createRadialGradient(x + w, y + h, 0, x + w, y + h, r / 2);
+		rG.addColorStop(0, "rgba(0, 104, 255, 0)");
+		rG.addColorStop(0.75, "rgba(0, 104, 255, 0.1)");
+		rG.addColorStop(0.97, "rgba(0, 104, 255, 0.35)");
+		rG.addColorStop(1, "rgba(0, 104, 255, 0.7)");
+		c.fillStyle = rG;
+		c.beginPath();
+		c.ellipse(x + w, y + h, r / 2, r / 2, 0, 0, Math.PI * 2);
+		c.fill();
+		c.restore();
+	};
 
 	// endGame: called when some player's HP reaches 0, or if time is up
 	const endGame = function() {
@@ -270,6 +290,10 @@ const initialiseGame = function(side) {
 				}
 			}
 		}
+
+		// draw the cheating outline
+		if (players[side].cheat) drawCheatingCircle(side);
+		if (players[otherside].cheat) drawCheatingCircle(otherside);
 		
 		// end game detection
 		if (players.left.health <= 0 || players.right.health <= 0 || timer == 0) {
