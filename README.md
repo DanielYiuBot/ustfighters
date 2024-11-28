@@ -56,7 +56,7 @@ Server setup: install these packages - `express`, `express-session`, `bcrypt`, `
 
 Keys used in game (can be changed): arrow keys for movement (down key does nothing currently), spacebar for attack, t for toggle cheat mode
 
-Some player accounts are created for testing (currently there are no scripts updating the game stats):
+Some player accounts are created for testing:
 
 | Username|Password|Display name |
 |---------|--------|-------------|
