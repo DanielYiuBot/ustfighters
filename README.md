@@ -3,9 +3,13 @@
 ## Description (also seen in the front page)
 
 Welcome to UST Fighter!
+
 Get ready for 1v1 action in this thrilling fighting game.
+
 Control your character with the arrow keys and press the space bar to attack.
+
 The match lasts 90 seconds. The player with the most remaining health at the end wins.
+
 Join the fight and prove your skills now!
 
 ## Information for testing
