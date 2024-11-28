@@ -73,7 +73,6 @@ function stopGame() {
 	if (timerId) {
 		clearTimeout(timerId);
 	}
-	sounds.background.pause();
 	// hide the game area
 	document.getElementById("game_area").style.display = "none";
 	// prepare the message on the main page
@@ -273,7 +272,7 @@ const initialiseGame = function(side) {
 		}
 		
 		// end game detection
-		if (players.left.health <= 0 || players.right.health <= 0) {
+		if (players.left.health <= 0 || players.right.health <= 0 || timer == 0) {
 			gameAnimFrameId = null;
 			removeEventListener("keydown", handleKeydown);
 			removeEventListener("keyup", handleKeyup);
