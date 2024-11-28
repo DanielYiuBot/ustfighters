@@ -95,12 +95,15 @@ app.post("/signin", (req, res) => {
 	res.json({ status: "success", user });
 });
 
-// validate endpoint (same as lab 5)
+// validate endpoint (similar to lab 5)
 app.get("/validate", (req, res) => {
 	user = req.session.user;
 	if (user == null) {
 		res.json({ status: "error", error: "No user is signed in" });
 	} else {
+		// update game stats!!
+		const currentusers = JSON.parse(fs.readFileSync("data/users.json"));
+		user.gameStats = currentusers[user.username].gameStats;
 		res.json({ status: "success", user });
 	}
 });
