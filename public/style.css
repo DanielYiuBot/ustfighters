@@ -73,5 +73,6 @@ form input {
 }
 
 #instruction {
+	height: 80vh;
 	overflow: auto;
 }
