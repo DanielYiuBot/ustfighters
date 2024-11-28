@@ -113,5 +113,16 @@ const Socket = (function() {
 			socket.emit("player update", data);
 		}
 	};
-    return { getSocket, connect, disconnect, requestOpponent, requestFailed, rotateWaitingText, updateOtherPlayer };
+	const updateGameStats = function(stats) {
+		if (socket && socket.connected) {
+			socket.emit("player stat update", stats);
+		}
+	}
+	const backtoMain = function() {
+		if (socket && socket.connected) {
+			socket.emit("get user info"); // update the game stats on the main page
+			socket.emit("send me to", "main");
+		}
+	};
+    return { getSocket, connect, disconnect, requestOpponent, requestFailed, rotateWaitingText, updateOtherPlayer, updateGameStats, backtoMain };
 })();
