@@ -46,10 +46,9 @@ Improvements/bugfixes:
  
 2024-11-28:
 - Small changes to `style.css` to accommodate for instruction box overflow.
-
-2024-11-28:
 - added instruction to front page
 - added background music, gameover sound effect and take hit sound effect
+- added some basic endgame detection / screen
 
 ### Information for testing
 
