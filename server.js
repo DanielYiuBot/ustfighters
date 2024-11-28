@@ -194,6 +194,17 @@ io.on("connection", (socket) => {
 		// send the data to the opponent
 		socket.to(onlinePlayers[sessionUser.username].room).emit("player update from server", data);
 	});
+	socket.on("player stat update", (data)=>{
+		// update users.json
+		const currentusers = JSON.parse(fs.readFileSync("data/users.json"));
+		if (!(sessionUser.username in currentusers)) return; // how??
+		newdata = JSON.parse(data);
+		for (item in newdata) {
+			currentusers[sessionUser.username].gameStats[item] += newdata[item];
+			onlinePlayers[sessionUser.username].gameStats[item] += newdata[item];
+		}
+		fs.writeFileSync("data/users.json", JSON.stringify(currentusers, null, "  "));
+	});
 });
 
 // listen at port 8000
