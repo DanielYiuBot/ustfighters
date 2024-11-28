@@ -50,10 +50,11 @@ Improvements/bugfixes:
 - added background music, gameover sound effect and take hit sound effect
 - added some basic endgame detection / screen
 - deleted (strikethrough) some completed items from to do list
+- made this file "clone" - if a readme file needed for submission, submit `README.md` instead
 
 ### Information for testing
 
-Server setup: install these packages - `express`, `express-session`, `bcrypt`, `socket.io`; then run `node server.js`
+Server setup: install these packages - `express`, `express-session`, `bcrypt`, `socket.io`; then run `server.js`
 
 Keys used in game (can be changed): arrow keys for movement (down key does nothing currently), spacebar for attack, t for toggle cheat mode
 
