@@ -43,6 +43,9 @@ Improvements/bugfixes:
 - Some minor bugfixes.
 - Added scripts for dealing with the edge case of server restarts (/ closing then reopening with clients still connected). Now they are all force-disconnected if server restarts.
 - Added information for testing.
+ 
+2024-11-28:
+- Small changes to `style.css` to accommodate for instruction box overflow.
 
 ### Information for testing
 
