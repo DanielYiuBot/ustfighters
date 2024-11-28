@@ -47,6 +47,10 @@ Improvements/bugfixes:
 2024-11-28:
 - Small changes to `style.css` to accommodate for instruction box overflow.
 
+2024-11-28:
+- added instruction to front page
+- added background music, gameover sound effect and take hit sound effect
+
 ### Information for testing
 
 Server setup: install these packages - `express`, `express-session`, `bcrypt`, `socket.io`; then run `node server.js`

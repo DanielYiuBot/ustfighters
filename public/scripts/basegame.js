@@ -73,6 +73,7 @@ function stopGame() {
 	if (timerId) {
 		clearTimeout(timerId);
 	}
+	sounds.background.pause();
 	// hide the game area
 	document.getElementById("game_area").style.display = "none";
 	// prepare the message on the main page
@@ -85,6 +86,9 @@ function stopGame() {
 
 // initialiseGame: runs once, when the game starts
 const initialiseGame = function(side) {
+	//play background music
+	sounds.background.volume = 0.3
+	sounds.background.play();
 	// hide all things related to the main page
 	document.getElementById("main_page").style.display = "none";
 	// reset things in the game area
@@ -181,6 +185,8 @@ const initialiseGame = function(side) {
 	// endGame: called when some player's HP reaches 0, or if time is up
 	const endGame = function() {
 		// not yet implemented
+		sounds.background.pause();
+		sounds.gameover.play();
 	};
 	
 	// gameFrame: called every frame
@@ -255,6 +261,9 @@ const initialiseGame = function(side) {
 			players[otherside].cheat = returnData.cheating;
 			if (returnData.otherPlayerHit) {
 				players[side].takeHit();
+				//play hit sound effect
+				sounds.slash.currentTime = 0;
+				sounds.slash.play();
 				if (side == "left") {
 					gsap.to("#player1Health", { width: players.left.health + "%" });
 				} else {
@@ -269,7 +278,7 @@ const initialiseGame = function(side) {
 			removeEventListener("keydown", handleKeydown);
 			removeEventListener("keyup", handleKeyup);
 			returnData = null;
-			determineWinner({ players.left, players.right, timerId });
+			determineWinner({ player1: players.left, player2: players.right, timerId });
 			endGame();
 		} else {
 			gameAnimFrameId = requestAnimationFrame(gameFrame);
